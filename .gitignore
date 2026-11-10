@@ -10,5 +10,6 @@ dist/
 /local_runs/
 /paper1_results/ckpt/
 /paper1_results/code/
-/updated_report/report.html
-/updated_report/assets/
+/updated_report/report.aux
+/updated_report/report.log
+/updated_report/report.out

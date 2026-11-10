@@ -1,4 +1,4 @@
-"""Build the technical research report (HTML -> PDF through headless Chrome).
+"""Build the technical research report (LaTeX -> PDF with pdflatex).
 
 Every number, table and figure is generated from ``paper1_results``; nothing is typed by hand.
 
@@ -11,6 +11,7 @@ import json
 import logging
 import shutil
 import subprocess
+from html.parser import HTMLParser
 from pathlib import Path
 
 import matplotlib
@@ -36,11 +37,6 @@ CONFIG_HASH = "e5688756d04f"
 BUDGET, SEED = 0.10, 42
 REPO = "https://github.com/AakashBhat1/zeroday-intrusion-detection-ssl"
 PDF_NAME = "Zero_Day_SSL_Research_Report.pdf"
-CHROME_CANDIDATES = (
-    r"C:\Program Files\Google\Chrome\Application\chrome.exe",
-    r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe",
-    "google-chrome", "chromium", "chrome",
-)
 NAMES = {
     "S4_E06 (Decoupled)": "S4_E06, decoupled score (proposed)", "S4_E06 (MSP Probe)": "S4_E06, MSP score",
     "S4_E05 (SSL Base)": "S4_E05 (end-to-end fine-tuning)", "SCARF (SSL)": "SCARF",
@@ -68,15 +64,13 @@ def html_table(header: list[str], rows: list[list[str]], bold_rows: tuple[int, .
     return f"<table class='{cls}'><thead><tr>{head}</tr></thead><tbody>{body}</tbody></table>"
 
 
+EQUATIONS: dict[int, str] = {}
+
+
 def equation(tex: str, number: int) -> str:
-    """Render one display equation with matplotlib mathtext (Computer Modern) to SVG."""
-    path = ASSETS / f"eq{number}.svg"
-    fig = plt.figure(figsize=(0.01, 0.01))
-    fig.text(0, 0, f"${tex}$", fontsize=11, math_fontfamily="cm")
-    fig.savefig(path, bbox_inches="tight", pad_inches=0.02, transparent=True)
-    plt.close(fig)
-    return (f"<div class='eq'><img src='assets/{path.name}' alt='equation {number}'>"
-            f"<span class='eqn'>({number})</span></div>")
+    """Register a display equation; the converter emits it as a LaTeX equation environment."""
+    EQUATIONS[number] = tex
+    return f"<eq n='{number}'></eq>"
 
 
 def bar_figures(flat: pd.DataFrame, path: Path) -> None:
@@ -127,45 +121,150 @@ def stand_in_table(tune_path: Path) -> tuple[str, dict]:
     return html_table(header, body), means
 
 
-def find_chrome() -> str:
-    for candidate in CHROME_CANDIDATES:
-        if Path(candidate).is_file():
-            return candidate
-        found = shutil.which(candidate)
+TEX_CHARS = {"&": r"\&", "%": r"\%", "_": r"\_", "#": r"\#", "$": r"\$", "\u00a0": "~", "±": r"$\pm$", "×": r"$\times$",
+             "−": "$-$", "τ": r"$\tau$", "δ": r"$\delta$", "Δ": r"$\Delta$", "λ": r"$\lambda$", "θ": r"$\theta$",
+             "α": r"$\alpha$", "ℝ": r"$\mathbb{R}$", "∈": r"$\in$", "→": r"$\rightarrow$", "–": "--", "—": "---"}
+INLINE = {"b": r"\textbf{", "i": r"\textit{", "sub": r"\textsubscript{", "sup": r"\textsuperscript{", "code": r"\texttt{"}
+PREAMBLE = r"""\documentclass[10pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern,microtype}
+\usepackage[a4paper,margin=22mm,top=25mm,bottom=24mm]{geometry}
+\usepackage{amsmath,amssymb,array,booktabs,graphicx,adjustbox,caption,enumitem,fancyhdr,titlesec,xcolor}
+\usepackage[colorlinks=true,urlcolor=blue!55!black,linkcolor=black]{hyperref}
+\captionsetup{font=small,labelfont=bf,skip=4pt}
+\setlist{itemsep=1pt,topsep=3pt,leftmargin=*}
+\titlespacing*{\section}{0pt}{12pt}{4pt}
+\titlespacing*{\subsection}{0pt}{8pt}{3pt}
+\setlength{\parindent}{0pt}\setlength{\parskip}{4pt}
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small Zero-Day SSL Research Report: Label-Scarce Intrusion Detection}
+\fancyhead[R]{\small November 2026}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\begin{document}
+"""
+
+
+def tex_escape(text: str) -> str:
+    return "".join(TEX_CHARS.get(ch, ch) for ch in text)
+
+
+class HtmlToTex(HTMLParser):
+    """Converts the restricted HTML this script writes (headings, paragraphs, lists, tables, figures) to LaTeX."""
+
+    def __init__(self) -> None:
+        super().__init__(convert_charrefs=True)
+        self.stack: list[list[str]] = [[]]   # output buffers; headings, captions and table cells get their own
+        self.rows: list[tuple[bool, list[str]]] = []
+        self.row_bold = False
+        self.closers: list[str] = []
+
+    def emit(self, text: str) -> None:
+        self.stack[-1].append(text)
+
+    def handle_starttag(self, tag: str, attrs: list) -> None:
+        a = dict(attrs)
+        cls = a.get("class", "") or ""
+        closer = ""
+        if tag in ("br", "img"):
+            self.emit(r"\\ " if tag == "br" else f"\\includegraphics[width=\\linewidth]{{{a['src']}}}\n")
+            return
+        if tag in INLINE:
+            self.emit(INLINE[tag])
+            closer = "}"
+        elif tag == "a":
+            self.emit(r"\href{" + a["href"].replace("%", r"\%").replace("#", r"\#") + "}{")
+            closer = "}"
+        elif tag == "h1":
+            self.emit("\\begin{center}{\\LARGE\\bfseries ")
+            closer = "\\par}\\end{center}\n"
+        elif tag in ("h2", "h3"):
+            self.stack.append([])
+            closer = tag
+        elif tag == "p" and cls == "sub":
+            self.emit("\\begin{center}\\vspace{-4pt}{\\large")
+            closer = "}\\end{center}\n"
+        elif tag == "p" and cls == "meta":
+            self.emit("\\begin{center}\\vspace{-6pt}{\\small")
+            closer = "}\\end{center}\n\\vspace{2pt}\n"
+        elif tag == "p" and cls in ("capt", "cap"):
+            self.stack.append([])
+            closer = cls
+        elif tag == "p":
+            closer = "\n\n"
+        elif tag in ("ol", "ul"):
+            env = "enumerate" if tag == "ol" else "itemize"
+            self.emit(f"\\begin{{{env}}}\n")
+            closer = f"\\end{{{env}}}\n"
+        elif tag == "li":
+            self.emit("\\item ")
+            closer = "\n"
+        elif tag == "table":
+            self.rows = []
+            closer = "table:" + cls
+        elif tag == "tr":
+            self.row_bold = cls == "hl"
+            self.rows.append((self.row_bold, []))
+        elif tag in ("td", "th"):
+            self.stack.append([])
+            closer = tag
+        elif tag == "figure":
+            self.emit("\\begin{center}\n")
+        elif tag == "eq":
+            self.emit("\\begin{equation}\n" + EQUATIONS[int(a["n"])] + "\n\\end{equation}\n")
+        elif tag == "div" and cls == "box":
+            self.emit("\\vspace{4pt}\\begin{center}\\fbox{\\begin{minipage}{0.95\\linewidth}\\small ")
+            closer = "\\end{minipage}}\\end{center}\n"
+        self.closers.append(closer)
+
+    def handle_endtag(self, tag: str) -> None:
+        if tag in ("br", "img"):
+            return
+        closer = self.closers.pop()
+        if closer in ("h2", "h3"):
+            title = "".join(self.stack.pop()).replace("~", " ").strip()
+            numbered = title[:1].isdigit()
+            title = title.split(" ", 1)[1].strip() if numbered else title
+            command = ("section" if closer == "h2" else "subsection") + ("" if numbered else "*")
+            self.emit(f"\\{command}{{{title}}}\n")
+        elif closer in ("capt", "cap"):
+            text = "".join(self.stack.pop()).split(": ", 1)[1]
+            if closer == "capt":
+                self.emit(f"\\begin{{center}}\n\\captionof{{table}}{{{text}}}\n")
+            else:
+                self.emit(f"\\captionof{{figure}}{{{text}}}\n\\end{{center}}\n")
+        elif closer in ("td", "th"):
+            cell = "".join(self.stack.pop()).strip()
+            bold = self.row_bold or closer == "th"
+            self.rows[-1][1].append(f"{{\\bfseries\\boldmath {cell}}}" if bold and cell else cell)
+        elif closer.startswith("table:"):
+            n_cols = len(self.rows[0][1])
+            spec = "lll>{\\raggedright\\arraybackslash}p{7cm}" if closer.endswith("wrap") else "l" * n_cols
+            lines = [" & ".join(cells) + r" \\" for _, cells in self.rows]
+            self.emit("\\begin{adjustbox}{max width=\\linewidth}\\small\n\\begin{tabular}{" + spec + "}\n\\toprule\n"
+                      + lines[0] + "\n\\midrule\n" + "\n".join(lines[1:])
+                      + "\n\\bottomrule\n\\end{tabular}\n\\end{adjustbox}\n\\end{center}\n")
+        else:
+            self.emit(closer)
+
+    def handle_data(self, data: str) -> None:
+        text = " ".join(data.split())
+        if not text:
+            if data and self.stack[-1] and "\n" not in data:
+                self.emit(" ")
+            return
+        lead = " " if data[:1].isspace() else ""
+        trail = " " if data[-1:].isspace() else ""
+        self.emit(lead + tex_escape(text) + trail)
+
+
+def find_latex() -> str:
+    for candidate in ("pdflatex", str(Path.home() / "AppData/Local/Programs/MiKTeX/miktex/bin/x64/pdflatex.exe")):
+        found = shutil.which(candidate) or (candidate if Path(candidate).is_file() else None)
         if found:
             return found
-    raise FileNotFoundError("Chrome or Edge is needed to print the report to PDF")
-
-
-CSS = """
-@page { size: A4; margin: 22mm 20mm 20mm 20mm;
-  @top-left { content: "Zero-Day SSL Research Report: Label-Scarce Intrusion Detection"; font: 8.5pt Georgia, serif; color: #444; }
-  @top-right { content: "November 2026"; font: 8.5pt Georgia, serif; color: #444; }
-  @bottom-center { content: counter(page); font: 9pt Georgia, serif; color: #444; } }
-body { font-family: Georgia, 'Times New Roman', serif; font-size: 10.2pt; line-height: 1.42; color: #111; text-align: justify; hyphens: auto; }
-h1.title { font-size: 19pt; text-align: center; line-height: 1.25; margin: 6mm 0 3mm; }
-p.sub { text-align: center; font-size: 11pt; margin: 0 0 1mm; }
-p.meta { text-align: center; font-size: 9.5pt; color: #333; margin: 0 0 5mm; }
-h2 { font-size: 13pt; margin: 6mm 0 2mm; break-after: avoid; }
-h3 { font-size: 11pt; margin: 4mm 0 1.5mm; break-after: avoid; }
-p { margin: 0 0 2.2mm; }
-ol, ul { margin: 0 0 2.2mm 0; padding-left: 6mm; } li { margin-bottom: 1mm; }
-table { border-collapse: collapse; margin: 2mm auto 1mm; font-size: 8.6pt; break-inside: avoid; }
-th { border-top: 1.2pt solid #111; border-bottom: 0.7pt solid #111; padding: 1.2mm 2.2mm; text-align: left; }
-td { padding: 0.9mm 2.2mm; text-align: left; white-space: nowrap; }
-tbody tr:last-child td { border-bottom: 1.2pt solid #111; }
-tr.hl td { font-weight: bold; }
-table.wrap td { white-space: normal; }
-.cap { text-align: center; font-size: 9pt; margin: 1mm 0 3.5mm; break-before: avoid; }
-.capt { text-align: center; font-size: 9pt; margin: 3mm 0 0; break-after: avoid; }
-.eq { display: flex; align-items: center; justify-content: center; margin: 2mm 0; position: relative; }
-.eq img { max-width: 88%; } .eqn { position: absolute; right: 0; font-size: 10pt; }
-figure { margin: 3mm 0; text-align: center; break-inside: avoid; } figure img { max-width: 100%; }
-code { font-family: Consolas, 'Courier New', monospace; font-size: 8.8pt; }
-a { color: #0b4f9c; text-decoration: none; }
-.box { border: 0.7pt solid #777; padding: 2.5mm 3.5mm; margin: 3mm 0; break-inside: avoid; }
-.page-break { break-before: page; }
-"""
+    raise FileNotFoundError("pdflatex is needed to typeset the report (MiKTeX or TeX Live)")
 
 
 def build() -> Path:
@@ -237,9 +336,9 @@ def build() -> Path:
          for r in scorers.itertuples()], (0,))
     table_standin, standin_means = stand_in_table(RESULTS / "results" / "tune.jsonl")
     cand = summarize_tuning(RESULTS / "results" / "tune.jsonl")
-    cand_names = {"base": "Stated configuration (10 epochs, mask 0.2, λ_nov 0.2)", "epochs30": "30 pretraining epochs",
+    cand_names = {"base": "Stated configuration (10 epochs, mask 0.2, λ<sub>nov</sub> 0.2)", "epochs30": "30 pretraining epochs",
                   "mask0.4": "Mask rate 0.4", "temp0.5": "Contrastive temperature 0.5",
-                  "no_input_norm": "No input LayerNorm", "novelty1.0": "λ_nov = 1.0", "no_novelty": "No novelty loss"}
+                  "no_input_norm": "No input LayerNorm", "novelty1.0": "λ<sub>nov</sub> = 1.0", "no_novelty": "No novelty loss"}
     table_cand = html_table(
         ["Pretraining setting", "Decoupled", "k-NN to benign", "Mahalanobis to benign"],
         [[cand_names[c], f"{cand.loc[c, 'decoupled']:.4f}", f"{cand.loc[c, 'knn_benign']:.4f}",
@@ -436,12 +535,19 @@ Every number in this report is computed from <a href="{REPO}/blob/main/paper1_re
 the tables are also in <a href="{REPO}/tree/main/paper1_results/report"><code>paper1_results/report/</code></a>, the split manifest in <a href="{REPO}/blob/main/paper1_results/data/manifest.json"><code>paper1_results/data/manifest.json</code></a>,
 and this report is generated by <a href="{REPO}/blob/main/tools/build_report.py"><code>tools/build_report.py</code></a>. Dataset: CSE-CIC-IDS2018, public bucket <code>s3://cse-cic-ids2018</code>.</div>
 """
-    html_path = OUT / "report.html"
-    html_path.write_text(f"<!doctype html><html lang='en'><head><meta charset='utf-8'><title>Zero-Day SSL Research Report</title>"
-                         f"<style>{CSS}</style></head><body>{body}</body></html>", encoding="utf-8")
+    converter = HtmlToTex()
+    converter.feed(body)
+    tex_path = OUT / "report.tex"
+    tex_path.write_text(PREAMBLE + "".join(converter.stack[0]) + "\n\\end{document}\n", encoding="utf-8")
+    for _ in range(2):  # the second pass settles references and page numbers
+        done = subprocess.run([find_latex(), "-interaction=nonstopmode", "-halt-on-error", tex_path.name],
+                              cwd=OUT, capture_output=True, text=True, timeout=900)
+        if done.returncode != 0:
+            raise RuntimeError("pdflatex failed:\n" + done.stdout[-3000:])
     pdf_path = OUT / PDF_NAME
-    subprocess.run([find_chrome(), "--headless=new", "--disable-gpu", "--no-pdf-header-footer",
-                    f"--print-to-pdf={pdf_path}", html_path.as_uri()], check=True, capture_output=True, timeout=180)
+    (OUT / "report.pdf").replace(pdf_path)
+    for suffix in (".aux", ".log", ".out"):
+        (OUT / f"report{suffix}").unlink(missing_ok=True)
     return pdf_path
 
 
