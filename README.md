@@ -1,4 +1,6 @@
-# zdssl: self-supervised zero-day intrusion detection on CSE-CIC-IDS2018
+# zeroday-intrusion-detection-ssl
+
+Self-supervised zero-day intrusion detection on CSE-CIC-IDS2018. The Python package inside is named `zdssl` (zero-day self-supervised learning).
 
 A self-supervised tabular encoder for detecting an attack family that was never seen in training, evaluated against five baselines under label scarcity. This repository holds the code, the tests, and the full outputs of the run matrix.
 
