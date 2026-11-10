@@ -1,0 +1,127 @@
+2026-11-10 08:34:06,672 NumExpr defaulting to 2 threads.
+2026-11-10 08:35:03,837 tune base held-out=Infilteration seed=42: best maha_benign=0.5777 (decoupled=0.5071) 53s
+2026-11-10 08:35:55,803 tune base held-out=Infilteration seed=43: best maha_class=0.5732 (decoupled=0.5044) 52s
+2026-11-10 08:36:46,303 tune base held-out=DDoS attacks-LOIC-HTTP seed=42: best knn_benign=0.9433 (decoupled=0.8195) 50s
+2026-11-10 08:37:38,352 tune base held-out=DDoS attacks-LOIC-HTTP seed=43: best knn_benign=0.9472 (decoupled=0.7855) 52s
+2026-11-10 08:38:29,812 tune base held-out=SSH-Bruteforce seed=42: best knn_benign=0.9221 (decoupled=0.7075) 51s
+2026-11-10 08:39:20,958 tune base held-out=SSH-Bruteforce seed=43: best knn_benign=0.9129 (decoupled=0.6920) 51s
+2026-11-10 08:40:12,511 tune base held-out=DoS attacks-Slowloris seed=42: best raw_maha_benign=0.9771 (decoupled=0.7136) 52s
+2026-11-10 08:41:02,711 tune base held-out=DoS attacks-Slowloris seed=43: best raw_maha_benign=0.9779 (decoupled=0.7274) 50s
+2026-11-10 08:42:55,967 tune epochs30 held-out=Infilteration seed=42: best maha_class=0.5870 (decoupled=0.5277) 113s
+2026-11-10 08:44:49,308 tune epochs30 held-out=Infilteration seed=43: best maha_class=0.5865 (decoupled=0.5232) 113s
+2026-11-10 08:46:42,164 tune epochs30 held-out=DDoS attacks-LOIC-HTTP seed=42: best knn_benign=0.9335 (decoupled=0.6458) 113s
+2026-11-10 08:48:35,721 tune epochs30 held-out=DDoS attacks-LOIC-HTTP seed=43: best knn_benign=0.9399 (decoupled=0.6834) 114s
+2026-11-10 08:50:28,722 tune epochs30 held-out=SSH-Bruteforce seed=42: best raw_knn_benign=0.8985 (decoupled=0.4501) 113s
+2026-11-10 08:52:22,348 tune epochs30 held-out=SSH-Bruteforce seed=43: best knn_benign=0.9089 (decoupled=0.4719) 114s
+2026-11-10 08:54:15,692 tune epochs30 held-out=DoS attacks-Slowloris seed=42: best raw_maha_benign=0.9771 (decoupled=0.7554) 113s
+2026-11-10 08:56:09,410 tune epochs30 held-out=DoS attacks-Slowloris seed=43: best raw_maha_benign=0.9779 (decoupled=0.7298) 114s
+2026-11-10 08:56:58,781 tune no_novelty held-out=Infilteration seed=42: best maha_class=0.5833 (decoupled=0.4630) 49s
+2026-11-10 08:57:48,701 tune no_novelty held-out=Infilteration seed=43: best maha_class=0.5843 (decoupled=0.5020) 50s
+2026-11-10 08:58:37,739 tune no_novelty held-out=DDoS attacks-LOIC-HTTP seed=42: best knn_benign=0.9567 (decoupled=0.6857) 49s
+2026-11-10 08:59:27,620 tune no_novelty held-out=DDoS attacks-LOIC-HTTP seed=43: best knn_benign=0.9568 (decoupled=0.6102) 50s
+2026-11-10 09:00:17,401 tune no_novelty held-out=SSH-Bruteforce seed=42: best knn_benign=0.9471 (decoupled=0.3233) 50s
+2026-11-10 09:01:07,470 tune no_novelty held-out=SSH-Bruteforce seed=43: best knn_benign=0.9313 (decoupled=0.1789) 50s
+2026-11-10 09:01:56,035 tune no_novelty held-out=DoS attacks-Slowloris seed=42: best raw_maha_benign=0.9771 (decoupled=0.2521) 49s
+2026-11-10 09:02:45,793 tune no_novelty held-out=DoS attacks-Slowloris seed=43: best raw_maha_benign=0.9779 (decoupled=0.2658) 50s
+2026-11-10 09:03:36,846 tune novelty1.0 held-out=Infilteration seed=42: best maha_benign=0.5767 (decoupled=0.5081) 51s
+2026-11-10 09:04:28,513 tune novelty1.0 held-out=Infilteration seed=43: best maha_class=0.5748 (decoupled=0.5075) 52s
+2026-11-10 09:05:18,286 tune novelty1.0 held-out=DDoS attacks-LOIC-HTTP seed=42: best knn_benign=0.9389 (decoupled=0.7925) 50s
+2026-11-10 09:06:09,747 tune novelty1.0 held-out=DDoS attacks-LOIC-HTTP seed=43: best knn_benign=0.9458 (decoupled=0.8359) 51s
+2026-11-10 09:06:59,950 tune novelty1.0 held-out=SSH-Bruteforce seed=42: best knn_benign=0.9145 (decoupled=0.7732) 50s
+2026-11-10 09:07:51,603 tune novelty1.0 held-out=SSH-Bruteforce seed=43: best knn_benign=0.9134 (decoupled=0.8101) 52s
+2026-11-10 09:08:42,412 tune novelty1.0 held-out=DoS attacks-Slowloris seed=42: best raw_maha_benign=0.9771 (decoupled=0.7097) 51s
+2026-11-10 09:09:33,774 tune novelty1.0 held-out=DoS attacks-Slowloris seed=43: best raw_maha_benign=0.9779 (decoupled=0.7431) 51s
+2026-11-10 09:10:25,279 tune mask0.4 held-out=Infilteration seed=42: best maha_class=0.5742 (decoupled=0.5087) 52s
+2026-11-10 09:11:15,749 tune mask0.4 held-out=Infilteration seed=43: best maha_benign=0.5707 (decoupled=0.5110) 50s
+2026-11-10 09:12:06,857 tune mask0.4 held-out=DDoS attacks-LOIC-HTTP seed=42: best knn_benign=0.9442 (decoupled=0.8756) 51s
+2026-11-10 09:12:57,659 tune mask0.4 held-out=DDoS attacks-LOIC-HTTP seed=43: best knn_benign=0.9556 (decoupled=0.8406) 51s
+2026-11-10 09:13:48,915 tune mask0.4 held-out=SSH-Bruteforce seed=42: best knn_benign=0.9171 (decoupled=0.7432) 51s
+2026-11-10 09:14:41,356 tune mask0.4 held-out=SSH-Bruteforce seed=43: best knn_benign=0.9225 (decoupled=0.7291) 52s
+2026-11-10 09:15:30,577 tune mask0.4 held-out=DoS attacks-Slowloris seed=42: best raw_maha_benign=0.9771 (decoupled=0.6300) 49s
+2026-11-10 09:16:21,764 tune mask0.4 held-out=DoS attacks-Slowloris seed=43: best raw_maha_benign=0.9779 (decoupled=0.6013) 51s
+2026-11-10 09:17:11,663 tune temp0.5 held-out=Infilteration seed=42: best maha_benign=0.5771 (decoupled=0.4884) 50s
+2026-11-10 09:18:03,169 tune temp0.5 held-out=Infilteration seed=43: best maha_benign=0.5714 (decoupled=0.4729) 52s
+2026-11-10 09:18:53,730 tune temp0.5 held-out=DDoS attacks-LOIC-HTTP seed=42: best knn_benign=0.9402 (decoupled=0.8632) 51s
+2026-11-10 09:19:44,245 tune temp0.5 held-out=DDoS attacks-LOIC-HTTP seed=43: best knn_benign=0.9467 (decoupled=0.8307) 51s
+2026-11-10 09:20:36,201 tune temp0.5 held-out=SSH-Bruteforce seed=42: best msp=0.9809 (decoupled=0.7733) 52s
+2026-11-10 09:21:26,353 tune temp0.5 held-out=SSH-Bruteforce seed=43: best knn_benign=0.9140 (decoupled=0.7478) 50s
+2026-11-10 09:22:16,941 tune temp0.5 held-out=DoS attacks-Slowloris seed=42: best raw_maha_benign=0.9771 (decoupled=0.7153) 51s
+2026-11-10 09:23:06,746 tune temp0.5 held-out=DoS attacks-Slowloris seed=43: best raw_maha_benign=0.9779 (decoupled=0.7180) 50s
+2026-11-10 09:23:56,927 tune no_input_norm held-out=Infilteration seed=42: best maha_benign=0.5779 (decoupled=0.4971) 50s
+2026-11-10 09:24:46,442 tune no_input_norm held-out=Infilteration seed=43: best maha_benign=0.5784 (decoupled=0.4959) 50s
+2026-11-10 09:25:36,331 tune no_input_norm held-out=DDoS attacks-LOIC-HTTP seed=42: best knn_benign=0.9468 (decoupled=0.8234) 50s
+2026-11-10 09:26:25,695 tune no_input_norm held-out=DDoS attacks-LOIC-HTTP seed=43: best knn_benign=0.9466 (decoupled=0.8509) 49s
+2026-11-10 09:27:15,696 tune no_input_norm held-out=SSH-Bruteforce seed=42: best knn_benign=0.9180 (decoupled=0.6356) 50s
+2026-11-10 09:28:04,831 tune no_input_norm held-out=SSH-Bruteforce seed=43: best msp=0.9429 (decoupled=0.5834) 49s
+2026-11-10 09:28:54,227 tune no_input_norm held-out=DoS attacks-Slowloris seed=42: best raw_maha_benign=0.9771 (decoupled=0.6219) 49s
+2026-11-10 09:29:43,130 tune no_input_norm held-out=DoS attacks-Slowloris seed=43: best raw_maha_benign=0.9779 (decoupled=0.6578) 49s
+2026-11-10 09:29:43,172 mean dev AUROC (rows: candidate, columns: scorer)
+scorer         centroid_benign  decoupled  knn_benign  maha_benign  maha_class     msp  raw_knn_benign  raw_maha_benign
+candidate                                                                                                              
+base                    0.7099     0.6821      0.8335       0.8285      0.7875  0.6015          0.8216           0.8183
+epochs30                0.6193     0.5984      0.8295       0.8319      0.7919  0.6952          0.8216           0.8183
+mask0.4                 0.7010     0.6799      0.8355       0.8289      0.7925  0.6944          0.8216           0.8183
+no_input_norm           0.6768     0.6457      0.8339       0.8269      0.7897  0.7038          0.8216           0.8183
+no_novelty              0.4762     0.4101      0.8408       0.8361      0.8057  0.5559          0.8216           0.8183
+novelty1.0              0.7252     0.7100      0.8298       0.8298      0.7913  0.7270          0.8216           0.8183
+temp0.5                 0.7190     0.7012      0.8315       0.8233      0.7877  0.7456          0.8216           0.8183
+2026-11-10 09:29:43,191 by held-out class
+held_out                       DDoS attacks-LOIC-HTTP  DoS attacks-Slowloris  Infilteration  SSH-Bruteforce
+candidate     scorer                                                                                       
+base          centroid_benign                  0.8171                 0.7584         0.5040          0.7602
+              decoupled                        0.8025                 0.7205         0.5058          0.6998
+              knn_benign                       0.9452                 0.9351         0.5363          0.9175
+              maha_benign                      0.9068                 0.9509         0.5749          0.8813
+              maha_class                       0.8071                 0.9371         0.5752          0.8306
+              msp                              0.5857                 0.6548         0.5585          0.6071
+              raw_knn_benign                   0.9230                 0.9656         0.4997          0.8981
+              raw_maha_benign                  0.9089                 0.9775         0.5112          0.8754
+epochs30      centroid_benign                  0.7014                 0.7819         0.5175          0.4763
+              decoupled                        0.6646                 0.7426         0.5254          0.4610
+              knn_benign                       0.9367                 0.9468         0.5321          0.9026
+              maha_benign                      0.9005                 0.9653         0.5847          0.8770
+              maha_class                       0.8051                 0.9539         0.5867          0.8219
+              msp                              0.7505                 0.5977         0.5454          0.8873
+              raw_knn_benign                   0.9230                 0.9656         0.4997          0.8981
+              raw_maha_benign                  0.9089                 0.9775         0.5112          0.8754
+mask0.4       centroid_benign                  0.8679                 0.6569         0.5128          0.7666
+              decoupled                        0.8581                 0.6157         0.5098          0.7361
+              knn_benign                       0.9499                 0.9381         0.5344          0.9198
+              maha_benign                      0.9161                 0.9463         0.5720          0.8814
+              maha_class                       0.8244                 0.9344         0.5702          0.8411
+              msp                              0.8009                 0.6692         0.5513          0.7562
+              raw_knn_benign                   0.9230                 0.9656         0.4997          0.8981
+              raw_maha_benign                  0.9089                 0.9775         0.5112          0.8754
+no_input_norm centroid_benign                  0.8376                 0.6822         0.4956          0.6917
+              decoupled                        0.8371                 0.6398         0.4965          0.6095
+              knn_benign                       0.9467                 0.9319         0.5420          0.9150
+              maha_benign                      0.9078                 0.9524         0.5782          0.8692
+              maha_class                       0.8114                 0.9386         0.5738          0.8349
+              msp                              0.6660                 0.7067         0.5309          0.9115
+              raw_knn_benign                   0.9230                 0.9656         0.4997          0.8981
+              raw_maha_benign                  0.9089                 0.9775         0.5112          0.8754
+no_novelty    centroid_benign                  0.7093                 0.2985         0.5120          0.3851
+              decoupled                        0.6480                 0.2589         0.4825          0.2511
+              knn_benign                       0.9567                 0.9436         0.5237          0.9392
+              maha_benign                      0.9026                 0.9521         0.5826          0.9070
+              maha_class                       0.8284                 0.9315         0.5838          0.8793
+              msp                              0.6577                 0.6409         0.5497          0.3755
+              raw_knn_benign                   0.9230                 0.9656         0.4997          0.8981
+              raw_maha_benign                  0.9089                 0.9775         0.5112          0.8754
+novelty1.0    centroid_benign                  0.8304                 0.7442         0.5133          0.8130
+              decoupled                        0.8142                 0.7264         0.5078          0.7917
+              knn_benign                       0.9423                 0.9290         0.5340          0.9140
+              maha_benign                      0.9089                 0.9414         0.5755          0.8935
+              maha_class                       0.8055                 0.9289         0.5748          0.8560
+              msp                              0.7802                 0.6663         0.5584          0.9030
+              raw_knn_benign                   0.9230                 0.9656         0.4997          0.8981
+              raw_maha_benign                  0.9089                 0.9775         0.5112          0.8754
+temp0.5       centroid_benign                  0.8465                 0.7434         0.4919          0.7943
+              decoupled                        0.8470                 0.7167         0.4806          0.7605
+              knn_benign                       0.9435                 0.9410         0.5285          0.9129
+              maha_benign                      0.9058                 0.9555         0.5743          0.8577
+              maha_class                       0.8110                 0.9396         0.5718          0.8282
+              msp                              0.8525                 0.7405         0.5510          0.8383
+              raw_knn_benign                   0.9230                 0.9656         0.4997          0.8981
+              raw_maha_benign                  0.9089                 0.9775         0.5112          0.8754
+2026-11-10 09:29:43,191 TUNE DONE

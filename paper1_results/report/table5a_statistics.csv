@@ -1,0 +1,7 @@
+comparison,n_pairs,mean_difference,w_statistic,p_raw,cliffs_delta,magnitude,p_bh,significant_at_0.05
+S4_E06 (Decoupled) vs S4_E06 (MSP Probe),10,0.10385410208000012,0.0,0.001953125,0.98,Large,0.0029296875,True
+S4_E06 (Decoupled) vs S4_E05 (SSL Base),10,0.09673391568,1.0,0.00390625,0.8,Large,0.00390625,True
+S4_E06 (Decoupled) vs Random Forest,10,0.02569060855999994,1.0,0.00390625,0.78,Large,0.00390625,True
+S4_E06 (Decoupled) vs XGBoost,10,0.14331573817999999,0.0,0.001953125,1.0,Large,0.0029296875,True
+S4_E06 (Decoupled) vs Deep SVDD,10,0.1792064578199999,0.0,0.001953125,1.0,Large,0.0029296875,True
+S4_E06 (Decoupled) vs SCARF (SSL),10,0.5113522798,0.0,0.001953125,1.0,Large,0.0029296875,True

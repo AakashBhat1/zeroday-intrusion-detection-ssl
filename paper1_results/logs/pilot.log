@@ -1,0 +1,12 @@
+2026-11-10 08:14:57,882 NumExpr defaulting to 2 threads.
+2026-11-10 08:14:59,389 stage pilot: 6 runs, 0 already done, 6 to run on cuda
+2026-11-10 08:15:42,326 pretrained F seed 42 in 35.4s
+2026-11-10 08:15:43,910 [1/6] S4_E06|F|B|0.1|42  AUROC=0.7103  42.4s
+2026-11-10 08:16:16,023 pretrained C seed 42 in 32.1s
+2026-11-10 08:16:19,282 [2/6] S4_E05|C|B|0.1|42  AUROC=0.8094  35.1s
+2026-11-10 08:16:32,505 pretrained SCARF seed 42 in 13.2s
+2026-11-10 08:16:33,944 [3/6] SCARF|-|B|0.1|42  AUROC=0.4676  14.4s
+2026-11-10 08:16:34,823 [4/6] DeepSVDD|-|B|0.1|42  AUROC=0.7949  0.7s
+2026-11-10 08:16:38,837 [5/6] RF|-|B|0.1|42  AUROC=0.9544  3.9s
+2026-11-10 08:16:47,795 [6/6] XGB|-|B|0.1|42  AUROC=0.9687  8.7s
+2026-11-10 08:16:47,796 STAGE pilot DONE: total=6 skipped=0 finished=6 failed=[]

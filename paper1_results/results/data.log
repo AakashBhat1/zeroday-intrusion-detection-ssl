@@ -1,0 +1,16 @@
+2026-11-10 08:11:37,049 NumExpr defaulting to 2 threads.
+2026-11-10 08:11:38,031 running: aws s3 sync --no-sign-request --region ca-central-1 s3://cse-cic-ids2018/Processed Traffic Data for ML Algorithms/ /content/cicids2018/raw
+2026-11-10 08:11:39,275 verified: 16233002 data lines, 59 repeated headers, 16232943 flows
+2026-11-10 08:11:39,275 label counts: {"Benign": 13484708, "Bot": 286191, "Brute Force -Web": 611, "Brute Force -XSS": 230, "DDOS attack-HOIC": 686012, "DDOS attack-LOIC-UDP": 1730, "DDoS attacks-LOIC-HTTP": 576191, "DoS attacks-GoldenEye": 41508, "DoS attacks-Hulk": 461912, "DoS attacks-SlowHTTPTest": 139890, "DoS attacks-Slowloris": 10990, "FTP-BruteForce": 193360, "Infilteration": 161934, "SQL Injection": 87, "SSH-Bruteforce": 187589}
+2026-11-10 08:12:14,953 split_sizes: {"train": 160526, "test": 100000, "cw_test": 20066, "tune": 20066}
+2026-11-10 08:12:14,954 n_features_B: 68
+2026-11-10 08:12:14,954 dropped_constant_columns: ["Bwd PSH Flags", "Bwd URG Flags", "Fwd Byts/b Avg", "Fwd Pkts/b Avg", "Fwd Blk Rate Avg", "Bwd Byts/b Avg", "Bwd Pkts/b Avg", "Bwd Blk Rate Avg"]
+2026-11-10 08:12:14,954 quarantine: {"timestamps_not_on_capture_day": 0, "seconds_from_train": 43259.0, "last_train_flow": "2018-03-01 12:59:01", "seconds_from_validation": 43387.0, "last_validation_flow": "2018-03-01 12:56:53", "first_test_flow": "2018-03-02 01:00:00", "max_hour_of_day_seen": 12}
+2026-11-10 08:12:14,954 sample_class_counts: {"Benign": 108000, "Brute Force -Web": 611, "Brute Force -XSS": 230, "DDOS attack-HOIC": 10000, "DDOS attack-LOIC-UDP": 1730, "DDoS attacks-LOIC-HTTP": 10000, "DoS attacks-GoldenEye": 10000, "DoS attacks-Hulk": 10000, "DoS attacks-SlowHTTPTest": 10000, "DoS attacks-Slowloris": 10000, "FTP-BruteForce": 10000, "Infilteration": 10000, "SQL Injection": 87, "SSH-Bruteforce": 10000}
+2026-11-10 08:12:14,954 exact_duplicates_removed: {"DoS attacks-SlowHTTPTest": 36582, "FTP-BruteForce": 29493, "SSH-Bruteforce": 11426, "DoS attacks-Slowloris": 705, "DoS attacks-Hulk": 339, "DDOS attack-HOIC": 99, "Benign": 75, "DoS attacks-GoldenEye": 53, "Infilteration": 5}
+2026-11-10 08:12:14,954 test_exact_duplicates_removed: {"Bot": 3881, "Benign": 1578}
+2026-11-10 08:12:14,954 test_rows_removed_seen_in_historical: 32929
+2026-11-10 08:12:14,954 validation_rows_sharing_a_train_feature_profile: 8881
+2026-11-10 08:12:14,954 test_class_counts: {"Benign": 50000, "Bot": 50000}
+2026-11-10 08:12:14,954 leakage_checks: {"row_ids_unique_across_splits": true, "only_known_split_names": true, "no_zero_day_outside_test": true, "test_has_only_benign_and_zero_day": true, "ssl_pool_equals_train": true, "ssl_pool_disjoint_from_validation": true, "no_feature_duplicates_train_vs_test": true, "no_feature_duplicates_historical_vs_test": true, "historical_rows_come_from_days_before_test_day": true, "test_rows_come_from_test_day": true, "quarantine_at_least_minimum": true}
+2026-11-10 08:12:14,954 DATA DONE: /content/paper1/data/splits.parquet

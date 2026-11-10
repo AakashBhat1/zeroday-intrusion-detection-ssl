@@ -1,0 +1,12 @@
+\begin{tabular}{llrrrrrrrrrr}
+\toprule
+row & device & n_seeds & params_trained_total & params_deployed & time_pretrain_seconds & time_adapt_seconds & time_infer_ms_per_flow & time_peak_memory_mb & time_checkpoint_mb & params_nodes & params_trees \\
+\midrule
+S4_E06 & Tesla T4 & 10 & 477726.0000 & 325718.0000 & 34.6312 & 0.9282 & 0.0006 & 274.4806 & 1.3130 & NaN & NaN \\
+S4_E05 (SSL Base) & Tesla T4 & 10 & 477726.0000 & 325718.0000 & 32.7872 & 2.4460 & 0.0005 & 266.9768 & 1.3130 & NaN & NaN \\
+Random Forest & Tesla T4 & 10 & NaN & NaN & NaN & 2.7957 & 0.0087 & NaN & 17.8189 & 100953.0000 & NaN \\
+XGBoost & Tesla T4 & 10 & NaN & NaN & NaN & 6.2186 & 0.0173 & NaN & 1.7215 & NaN & 1400.0000 \\
+Deep SVDD & Tesla T4 & 10 & NaN & 58368.0000 & NaN & 0.5543 & 0.0001 & 152.6620 & 0.2361 & NaN & NaN \\
+SCARF (SSL) & Tesla T4 & 10 & 175630.0000 & 125646.0000 & 13.5156 & 0.9420 & 0.0002 & 273.1284 & 0.5069 & NaN & NaN \\
+\bottomrule
+\end{tabular}

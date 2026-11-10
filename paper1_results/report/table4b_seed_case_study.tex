@@ -1,0 +1,11 @@
+\begin{tabular}{lrrrrrrrrrr}
+\toprule
+row & threshold & precision & recall & tnr & fpr & fnr & f1 & accuracy & tp & fp \\
+\midrule
+Decoupled, benign calibration & 0.7713 & 0.9574 & 0.9807 & 0.9564 & 0.0436 & 0.0193 & 0.9689 & 0.9685 & 49033 & 2182 \\
+MSP, benign calibration & 0.6264 & 0.0509 & 0.0041 & 0.9228 & 0.0772 & 0.9959 & 0.0077 & 0.4635 & 207 & 3859 \\
+Decoupled, mixture calibration (ablation) & 0.8227 & 0.9656 & 0.9601 & 0.9658 & 0.0342 & 0.0399 & 0.9628 & 0.9629 & 48004 & 1709 \\
+MSP, mixture calibration (ablation) & 0.6019 & 0.0924 & 0.0096 & 0.9061 & 0.0939 & 0.9904 & 0.0173 & 0.4578 & 478 & 4695 \\
+Decoupled, oracle (post-hoc diagnostic) & 0.7784 & 0.9599 & 0.9797 & 0.9591 & 0.0409 & 0.0203 & 0.9697 & 0.9694 & 48983 & 2046 \\
+\bottomrule
+\end{tabular}

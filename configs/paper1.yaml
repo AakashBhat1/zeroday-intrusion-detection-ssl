@@ -1,0 +1,121 @@
+# Paper 1 configuration. Every hyperparameter and path lives here.
+# Values come from the paper text or the training plan; nothing is tuned on test data.
+
+paths:
+  raw_dir: /content/cicids2018/raw          # Colab local disk (CSV download)
+  parquet_dir: /content/cicids2018/parquet  # Colab local disk (cleaned per-day parquet)
+  drive_root: /content/drive/MyDrive/paper1 # persistent: data/, ckpt/, results/, scores/, report/
+
+data:
+  s3_uri: "s3://cse-cic-ids2018/Processed Traffic Data for ML Algorithms/"
+  s3_region: ca-central-1
+  test_date: "2018-03-02"
+  expected_days:
+    ["2018-02-14", "2018-02-15", "2018-02-16", "2018-02-20", "2018-02-21",
+     "2018-02-22", "2018-02-23", "2018-02-28", "2018-03-01", "2018-03-02"]
+  # Data lines across the 10 CSVs, counting the repeated header lines inside them.
+  expected_raw_rows: 16233002
+  expected_zero_day_rows: 286191
+  expected_n_labels: 15
+  zero_day_label: Bot
+  benign_label: Benign
+  label_column: Label
+  timestamp_column: Timestamp
+  timestamp_format: "%d/%m/%Y %H:%M:%S"
+  id_columns: ["Dst Port", "Protocol"]                       # kept only for Condition A
+  extra_columns: ["Flow ID", "Src IP", "Src Port", "Dst IP"]  # present in the Feb 20 file only
+  chunk_rows: 500000
+
+splits:
+  seed: 42                # data sampling seed, independent of the run seeds
+  benign_cap: 108000      # historical sample: benign flows
+  attack_cap: 10000       # historical sample: cap per attack class (smaller classes taken whole)
+  candidate_factor: 5     # candidates drawn per class = factor x cap, before exact de-duplication
+  val_fraction: 0.2
+  tune_fraction: 0.5      # share of validation used for tuning; the rest is the closed-world test
+  test_per_class: 50000   # locked test: benign and zero-day flows each
+  min_quarantine_hours: 12
+
+features:
+  expected_condition_b: 68  # reported, not enforced
+  clip_abs: 10.0            # clip after RobustScaler; guards the zero-IQR heavy-tailed columns
+  unit_variance: true
+
+model:
+  width: 256
+  latent_dim: 128
+  n_blocks: 2
+  dropout: 0.1
+  input_norm: true        # LayerNorm on the raw feature vector (gives the paper's 316,424 encoder parameters)
+  head_hidden: 256
+  proj_dim: 64
+  probe_hidden: 64
+
+pretrain:
+  epochs: 10
+  warmup_epochs: 5        # centroid c is set after this epoch, novelty loss active afterwards
+  batch_size: 512
+  lr: 5.0e-4
+  weight_decay: 1.0e-5
+  p_mask: 0.20
+  jitter_sigma: 0.02
+  temperature: 0.1
+  gamma_mask: 1.0
+  centroid_min_flows: 5000
+  variants:               # lambda_rec, lambda_con, lambda_nov
+    A: [0.5, 0.0, 0.0]
+    B: [0.0, 0.5, 0.0]
+    C: [0.5, 0.5, 0.0]
+    F: [0.5, 0.5, 0.2]
+
+probe:
+  epochs: 10
+  batch_size: 256
+  lr: 1.0e-3
+  weight_decay: 1.0e-4
+  class_weight_power: 0.5
+
+finetune:
+  epochs: 10
+  batch_size: 256
+  lr_encoder: 1.0e-4
+  lr_head: 1.0e-3
+  weight_decay: 1.0e-4
+
+scarf:
+  epochs: 10
+  batch_size: 512
+  lr: 1.0e-3
+  weight_decay: 0.0
+  corruption_rate: 0.6
+  temperature: 1.0
+  hidden: 256
+
+svdd:
+  epochs: 10
+  batch_size: 256
+  lr: 1.0e-3
+  weight_decay: 1.0e-6
+  hidden: [256, 128]
+  out_dim: 64
+  center_eps: 0.1
+
+trees:
+  rf: {n_estimators: 100, max_depth: 15}
+  xgb: {n_estimators: 100}
+
+eval:
+  target_fpr: 0.05
+  batch_size: 8192
+  realistic_prevalence: 0.01
+  save_scores: true
+  proposed_scorer: decoupled   # zero-day score reported for S4_E06; chosen on stand-in zero-days (tune)
+  latent_scorers: [decoupled, centroid_benign, maha_benign, maha_class, knn_benign]  # all are recorded per run
+
+matrix:
+  seeds: [42, 43, 44, 45, 46, 47, 48, 49, 50, 51]
+  budgets: [1.0, 0.10, 0.05, 0.01]
+  primary_budget: 0.10
+  pilot_seed: 42
+  models: [S4_E06, S4_E05, SCARF, DeepSVDD, RF, XGB]
+  ablation_variants: [A, B, C]   # F is the S4_E06 run itself

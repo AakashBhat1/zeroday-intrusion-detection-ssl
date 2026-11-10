@@ -1,0 +1,102 @@
+2026-11-10 11:05:46,091 NumExpr defaulting to 2 threads.
+2026-11-10 11:05:48,625 ## table2_cost
+              row   device  n_seeds  params_trained_total  params_deployed  time_pretrain_seconds  time_adapt_seconds  time_infer_ms_per_flow  time_peak_memory_mb  time_checkpoint_mb  params_nodes  params_trees
+           S4_E06 Tesla T4       10              477726.0         325718.0                34.6312              0.9282                  0.0006             274.4806              1.3130           NaN           NaN
+S4_E05 (SSL Base) Tesla T4       10              477726.0         325718.0                32.7872              2.4460                  0.0005             266.9768              1.3130           NaN           NaN
+    Random Forest Tesla T4       10                   NaN              NaN                    NaN              2.7957                  0.0087                  NaN             17.8189      100953.0           NaN
+          XGBoost Tesla T4       10                   NaN              NaN                    NaN              6.2186                  0.0173                  NaN              1.7215           NaN        1400.0
+        Deep SVDD Tesla T4       10                   NaN          58368.0                    NaN              0.5543                  0.0001             152.6620              0.2361           NaN           NaN
+      SCARF (SSL) Tesla T4       10              175630.0         125646.0                13.5156              0.9420                  0.0002             273.1284              0.5069           NaN           NaN
+2026-11-10 11:05:48,634 ## table3_ranking_closed_world
+               row  n_seeds  auroc_mean  auroc_std  auprc_mean  auprc_std  cw_accuracy_mean  cw_accuracy_std  cw_macro_precision_mean  cw_macro_precision_std  cw_macro_recall_mean  cw_macro_recall_std  cw_macro_f1_mean  cw_macro_f1_std
+S4_E06 (Decoupled)       10      0.9785     0.0028      0.9423     0.0095            0.8813           0.0131                   0.7102                  0.0434                0.7443               0.0165            0.7001           0.0234
+S4_E06 (MSP Probe)       10      0.8747     0.0822      0.7950     0.1136            0.8813           0.0131                   0.7102                  0.0434                0.7443               0.0165            0.7001           0.0234
+ S4_E05 (SSL Base)       10      0.8818     0.1086      0.8739     0.0896            0.8935           0.0061                   0.7584                  0.0247                0.7682               0.0086            0.7471           0.0103
+     Random Forest       10      0.9528     0.0207      0.9376     0.0261            0.9225           0.0007                   0.9037                  0.0239                0.8012               0.0129            0.8267           0.0152
+           XGBoost       10      0.8352     0.0946      0.7938     0.1217            0.9243           0.0007                   0.8977                  0.0281                0.8378               0.0142            0.8493           0.0161
+         Deep SVDD       10      0.7993     0.0277      0.8152     0.0220               NaN              NaN                      NaN                     NaN                   NaN                  NaN               NaN              NaN
+       SCARF (SSL)       10      0.4672     0.0933      0.6066     0.1103            0.8619           0.0133                   0.7155                  0.0466                0.7146               0.0187            0.6869           0.0250
+2026-11-10 11:05:48,642 ## table4a_operational_benign
+               row  n_seeds  benign_threshold_mean  benign_threshold_std  benign_precision_mean  benign_precision_std  benign_recall_mean  benign_recall_std  benign_tnr_mean  benign_tnr_std  benign_fpr_mean  benign_fpr_std  benign_fnr_mean  benign_fnr_std  benign_f1_mean  benign_f1_std  benign_accuracy_mean  benign_accuracy_std
+S4_E06 (Decoupled)       10                 0.7300                0.0368                 0.9575                0.0013              0.9827             0.0037           0.9564          0.0013           0.0436          0.0013           0.0173          0.0037          0.9700         0.0023                0.9696               0.0023
+S4_E06 (MSP Probe)       10                 0.5366                0.0730                 0.5062                0.4349              0.2230             0.2554           0.9549          0.0172           0.0451          0.0172           0.7770          0.2554          0.2935         0.3226                0.5889               0.1284
+ S4_E05 (SSL Base)       10                 0.4187                0.0320                 0.9453                0.0215              0.4892             0.2030           0.9744          0.0082           0.0256          0.0082           0.5108          0.2030          0.6259         0.1667                0.7318               0.1007
+     Random Forest       10                 0.2293                0.0078                 0.9045                0.0366              0.5809             0.2426           0.9471          0.0071           0.0529          0.0071           0.4191          0.2426          0.6854         0.1933                0.7640               0.1206
+           XGBoost       10                 0.2110                0.0066                 0.8316                0.1310              0.4561             0.3128           0.9465          0.0038           0.0535          0.0038           0.5439          0.3128          0.5496         0.2970                0.7013               0.1561
+         Deep SVDD       10                 0.0190                0.0019                 0.9041                0.0037              0.5095             0.0041           0.9459          0.0023           0.0541          0.0023           0.4905          0.0041          0.6517         0.0037                0.7277               0.0024
+       SCARF (SSL)       10                 0.5446                0.0371                 0.5797                0.4240              0.2756             0.2394           0.9463          0.0167           0.0537          0.0167           0.7244          0.2394          0.3651         0.3089                0.6110               0.1208
+2026-11-10 11:05:48,650 ## table4a_operational_mixture
+               row  n_seeds  mixture_threshold_mean  mixture_threshold_std  mixture_precision_mean  mixture_precision_std  mixture_recall_mean  mixture_recall_std  mixture_tnr_mean  mixture_tnr_std  mixture_fpr_mean  mixture_fpr_std  mixture_fnr_mean  mixture_fnr_std  mixture_f1_mean  mixture_f1_std  mixture_accuracy_mean  mixture_accuracy_std
+S4_E06 (Decoupled)       10                  0.7876                 0.0221                  0.9666                 0.0026               0.9630              0.0538            0.9668           0.0024            0.0332           0.0024            0.0370           0.0538           0.9641          0.0296                 0.9649                0.0266
+S4_E06 (MSP Probe)       10                  0.5193                 0.0555                  0.5557                 0.4206               0.2884              0.2517            0.9376           0.0274            0.0624           0.0274            0.7116           0.2517           0.3729          0.3203                 0.6130                0.1255
+ S4_E05 (SSL Base)       10                  0.4633                 0.0250                  0.9619                 0.0211               0.4423              0.1337            0.9843           0.0069            0.0157           0.0069            0.5577           0.1337           0.5951          0.1418                 0.7133                0.0671
+     Random Forest       10                  0.3591                 0.0126                  0.9402                 0.0560               0.3883              0.1404            0.9822           0.0040            0.0178           0.0040            0.6117           0.1404           0.5364          0.1760                 0.6853                0.0695
+           XGBoost       10                  0.3579                 0.0150                  0.4830                 0.4315               0.2062              0.2824            0.9793           0.0044            0.0207           0.0044            0.7938           0.2824           0.2652          0.3433                 0.5928                0.1404
+         Deep SVDD       10                  0.1013                 0.0127                  0.9801                 0.0148               0.3681              0.1446            0.9941           0.0020            0.0059           0.0020            0.6319           0.1446           0.5200          0.1680                 0.6811                0.0723
+       SCARF (SSL)       10                  0.5122                 0.0328                  0.6694                 0.3640               0.3527              0.2233            0.9282           0.0189            0.0718           0.0189            0.6473           0.2233           0.4559          0.2812                 0.6404                0.1130
+2026-11-10 11:05:48,654 ## table4b_seed_case_study
+                                      row  threshold  precision  recall    tnr    fpr    fnr     f1  accuracy    tp   fp
+            Decoupled, benign calibration     0.7713     0.9574  0.9807 0.9564 0.0436 0.0193 0.9689    0.9685 49033 2182
+                  MSP, benign calibration     0.6264     0.0509  0.0041 0.9228 0.0772 0.9959 0.0077    0.4635   207 3859
+Decoupled, mixture calibration (ablation)     0.8227     0.9656  0.9601 0.9658 0.0342 0.0399 0.9628    0.9630 48004 1709
+      MSP, mixture calibration (ablation)     0.6019     0.0924  0.0096 0.9061 0.0939 0.9904 0.0173    0.4578   478 4695
+  Decoupled, oracle (post-hoc diagnostic)     0.7784     0.9599  0.9797 0.9591 0.0409 0.0203 0.9697    0.9694 48983 2046
+2026-11-10 11:05:48,659 ## table5a_statistics
+                              comparison  n_pairs  mean_difference  w_statistic  p_raw  cliffs_delta magnitude   p_bh  significant_at_0.05
+S4_E06 (Decoupled) vs S4_E06 (MSP Probe)       10           0.1039          0.0 0.0020          0.98     Large 0.0029                 True
+ S4_E06 (Decoupled) vs S4_E05 (SSL Base)       10           0.0967          1.0 0.0039          0.80     Large 0.0039                 True
+     S4_E06 (Decoupled) vs Random Forest       10           0.0257          1.0 0.0039          0.78     Large 0.0039                 True
+           S4_E06 (Decoupled) vs XGBoost       10           0.1433          0.0 0.0020          1.00     Large 0.0029                 True
+         S4_E06 (Decoupled) vs Deep SVDD       10           0.1792          0.0 0.0020          1.00     Large 0.0029                 True
+       S4_E06 (Decoupled) vs SCARF (SSL)       10           0.5114          0.0 0.0020          1.00     Large 0.0029                 True
+2026-11-10 11:05:48,663 ## table5b_ablation
+                             row  n_seeds  decoupled_auroc_mean  decoupled_auroc_std  decoupled_auprc_mean  decoupled_auprc_std  msp_auroc_mean  msp_auroc_std  msp_auprc_mean  msp_auprc_std
+          A. Reconstruction only       10                0.6370               0.0794                0.7309               0.0413          0.9043         0.1092          0.8960         0.0785
+             B. Contrastive only       10                0.8077               0.0706                0.7208               0.1020          0.8910         0.0954          0.8652         0.0847
+          C. Recon + Contrastive       10                0.9216               0.0384                0.8858               0.0508          0.9437         0.0468          0.9115         0.0703
+F. Recon + Contrastive + Novelty       10                0.9785               0.0028                0.9423               0.0095          0.8747         0.0822          0.7950         0.1136
+2026-11-10 11:05:48,668 ## s4_e06_all_scorers
+            row  n_seeds  auroc_mean  auroc_std  auprc_mean  auprc_std  benign_recall_mean  benign_recall_std  benign_fpr_mean  benign_fpr_std  benign_f1_mean  benign_f1_std
+      decoupled       10      0.9785     0.0028      0.9423     0.0095              0.9827             0.0037           0.0436          0.0013          0.9700         0.0023
+centroid_benign       10      0.9784     0.0035      0.9421     0.0108              0.9837             0.0022           0.0433          0.0013          0.9706         0.0015
+    maha_benign       10      0.9378     0.0061      0.9120     0.0084              0.5089             0.0039           0.0518          0.0016          0.6521         0.0030
+     maha_class       10      0.9189     0.0074      0.8938     0.0100              0.5088             0.0048           0.0527          0.0020          0.6517         0.0043
+     knn_benign       10      0.9144     0.0149      0.8896     0.0142              0.5111             0.0002           0.0507          0.0015          0.6545         0.0007
+            msp       10      0.8747     0.0822      0.7950     0.1136              0.2230             0.2554           0.0451          0.0172          0.2935         0.3226
+ raw_knn_benign       10      0.7434     0.0191      0.6490     0.0098              0.0034             0.0004           0.0557          0.0011          0.0064         0.0007
+raw_maha_benign       10      0.4214     0.0088      0.4240     0.0034              0.0037             0.0000           0.0594          0.0006          0.0069         0.0001
+2026-11-10 11:05:48,677 ## fig2_budget_trajectory
+               row  budget  n_seeds  auroc_mean  auroc_std  auprc_mean  auprc_std  cw_macro_f1_mean  cw_macro_f1_std
+S4_E06 (Decoupled)    1.00       10      0.9785     0.0028      0.9423     0.0095            0.7309           0.0333
+S4_E06 (Decoupled)    0.10       10      0.9785     0.0028      0.9423     0.0095            0.7001           0.0234
+S4_E06 (Decoupled)    0.05       10      0.9785     0.0028      0.9423     0.0095            0.6441           0.0103
+S4_E06 (Decoupled)    0.01       10      0.9785     0.0028      0.9423     0.0095            0.4176           0.0776
+S4_E06 (MSP Probe)    1.00       10      0.8931     0.1003      0.8662     0.0841            0.7309           0.0333
+S4_E06 (MSP Probe)    0.10       10      0.8747     0.0822      0.7950     0.1136            0.7001           0.0234
+S4_E06 (MSP Probe)    0.05       10      0.8487     0.0699      0.7842     0.0783            0.6441           0.0103
+S4_E06 (MSP Probe)    0.01       10      0.8320     0.0925      0.7571     0.1069            0.4176           0.0776
+ S4_E05 (SSL Base)    1.00       10      0.9154     0.0794      0.8728     0.0855            0.7713           0.0155
+ S4_E05 (SSL Base)    0.10       10      0.8818     0.1086      0.8739     0.0896            0.7471           0.0103
+ S4_E05 (SSL Base)    0.05       10      0.9033     0.1018      0.8564     0.1049            0.7197           0.0097
+ S4_E05 (SSL Base)    0.01       10      0.8254     0.0791      0.7794     0.0748            0.6460           0.0234
+     Random Forest    1.00       10      0.9779     0.0077      0.9712     0.0100            0.8561           0.0024
+     Random Forest    0.10       10      0.9528     0.0207      0.9376     0.0261            0.8267           0.0152
+     Random Forest    0.05       10      0.9359     0.0215      0.9169     0.0267            0.8052           0.0132
+     Random Forest    0.01       10      0.8512     0.0669      0.8154     0.0838            0.7587           0.0272
+           XGBoost    1.00       10      0.9439     0.0000      0.9417     0.0000            0.8880           0.0000
+           XGBoost    0.10       10      0.8352     0.0946      0.7938     0.1217            0.8493           0.0161
+           XGBoost    0.05       10      0.7702     0.0939      0.7373     0.1030            0.8231           0.0144
+           XGBoost    0.01       10      0.8161     0.1258      0.8021     0.1144            0.7551           0.0199
+         Deep SVDD    1.00       10      0.7224     0.0922      0.7624     0.0464               NaN              NaN
+         Deep SVDD    0.10       10      0.7993     0.0277      0.8152     0.0220               NaN              NaN
+         Deep SVDD    0.05       10      0.8348     0.0322      0.8363     0.0244               NaN              NaN
+         Deep SVDD    0.01       10      0.9833     0.0045      0.9612     0.0093               NaN              NaN
+       SCARF (SSL)    1.00       10      0.6852     0.1183      0.7279     0.0864            0.7321           0.0241
+       SCARF (SSL)    0.10       10      0.4672     0.0933      0.6066     0.1103            0.6869           0.0250
+       SCARF (SSL)    0.05       10      0.4577     0.1070      0.5570     0.0880            0.6209           0.0211
+       SCARF (SSL)    0.01       10      0.8044     0.0585      0.7124     0.0578            0.4774           0.0211
+2026-11-10 11:05:48,680 ## condition_a_shortcut
+                       row  n_seeds  auroc_mean  auroc_std  auprc_mean  auprc_std  benign_recall_mean  benign_recall_std  benign_fpr_mean  benign_fpr_std
+Random Forest, Condition A       10      0.9523     0.0112      0.9191     0.0283              0.6430             0.2052           0.0527          0.0070
+Random Forest, Condition B       10      0.9528     0.0207      0.9376     0.0261              0.5809             0.2426           0.0529          0.0071
+2026-11-10 11:05:48,680 REPORT DONE: 280 runs -> /content/drive/MyDrive/paper1/report
